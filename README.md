@@ -22,8 +22,6 @@
     <a href="https://github.com/renalreg/radar-patient-check"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/renalreg/radar-patient-check">View Demo</a>
-    ·
     <a href="https://github.com/renalreg/radar-patient-check/issues">Report Bug</a>
     ·
     <a href="https://github.com/renalreg/radar-patient-check/issues">Request Feature</a>
@@ -36,13 +34,9 @@
 
 This API was created to allow other applications to verify if a patient is present in <a href="https://ukkidney.org/rare-renal/homepage"><strong>Radar</strong></a> using memberships found in the <a href="https://ukkidney.org/audit-research/data-permissions/ukrdc"><strong>UKRDC</strong></a> database.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ### Built With
 
 [![Python][python.org]][python-url] [![Fastapi][fastapi.tiangolo.com]][fastapi-url] [![SQLModel][sqlmodel.tiangolo.com]][sqlmodel-url]
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 
@@ -106,7 +100,7 @@ Distributed under the APGL License. See `LICENSE` for more information.
 
 ## Contact
 
-Your Name - [@AndyAtterton](https://twitter.com/@AndyAtterton) - andrew.atterton@renalregistry.nhs.uk
+Your Name - [@RenalRadar](https://twitter.com/@RenalRadar) - andrew.atterton@renalregistry.nhs.uk
 
 Project Link: [https://github.com/renalreg/radar-patient-check](https://github.com/renalreg/radar-patient-check)
 
@@ -126,7 +120,7 @@ Project Link: [https://github.com/renalreg/radar-patient-check](https://github.c
 [license-shield]: https://img.shields.io/github/license/renalreg/radar-patient-check.svg?style=for-the-badge
 [license-url]: https://github.com/renalreg/radar-patient-check/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/andy-atterton-921933172
+[linkedin-url]: https://linkedin.com/company/ukkidney/
 [product-screenshot]: images/screenshot.png
 [next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [next-url]: https://nextjs.org/
