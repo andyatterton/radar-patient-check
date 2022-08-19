@@ -21,7 +21,7 @@ def test_main():
         },
     )
     assert responce.status_code == 200
-    assert responce.json() == {fake_identifier: True}
+    assert responce.json() == True
     print("hi")
 
 
@@ -33,7 +33,7 @@ def test_main_no_patient():
         },
     )
     assert responce.status_code == 200
-    assert responce.json() == {"6": False}
+    assert responce.json() == False
 
 
 def test_main_no_token():

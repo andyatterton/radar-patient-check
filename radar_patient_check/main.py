@@ -23,7 +23,7 @@ def api_key_auth(request: Request, request_key: str = Depends(oauth2_scheme)):
 async def radar_check(nhs_number: str):
     with Session(ukrdc_engine) as session:
         patient = session.query(PatientNumber).filter_by(patientid=nhs_number).first()
-        return {nhs_number: bool(patient)}
+        return bool(patient)
 
 
 if __name__ == "__main__":
