@@ -106,6 +106,15 @@ Project Link: [https://github.com/renalreg/radar-patient-check](https://github.c
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- ACKNOWLEDGMENTS -->
+
+## Acknowledgments
+
+- [UKRDC-SQLA](https://github.com/renalreg/ukrdc-sqla)
+- [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
