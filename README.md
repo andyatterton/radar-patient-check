@@ -30,37 +30,9 @@
   </p>
 </div>
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
-
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 This API was created to allow other applications to verify if a patient is present in <a href="https://ukkidney.org/rare-renal/homepage"><strong>Radar</strong></a> using memberships found in the <a href="https://ukkidney.org/audit-research/data-permissions/ukrdc"><strong>UKRDC</strong></a> database.
 
@@ -126,7 +98,7 @@ See the [open issues](https://github.com/renalreg/radar-patient-check/issues) fo
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the APGL License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
