@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.security import OAuth2PasswordBearer
 from sqlmodel import Session
-from ukrdc_sqla.ukrdc import PatientNumber
+from ukrdc_sqla.ukrdc import PatientNumber, ProgramMembership
 
 from radar_patient_check.database import APIKeys, key_engine, ukrdc_engine
 
@@ -23,7 +23,13 @@ def api_key_auth(request: Request, request_key: str = Depends(oauth2_scheme)):
 async def radar_check(nhs_number: str):
     with Session(ukrdc_engine) as session:
         patient = session.query(PatientNumber).filter_by(patientid=nhs_number).first()
-        return bool(patient)
+        membership = (
+            session.query(ProgramMembership)
+            .filter_by(pid=patient.pid, program_name="RADAR")
+            .first()
+        )
+
+        return bool(membership)
 
 
 if __name__ == "__main__":
