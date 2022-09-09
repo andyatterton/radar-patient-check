@@ -22,7 +22,6 @@ def test_main():
     )
     assert responce.status_code == 200
     assert responce.json() == True
-    print("hi")
 
 
 def test_main_no_patient():
