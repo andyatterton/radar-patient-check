@@ -1,6 +1,6 @@
 import os
 
-from fastapi import Depends, FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from sqlmodel import Session
 from ukrdc_sqla.ukrdc import PatientNumber, ProgramMembership
@@ -12,10 +12,9 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 app = FastAPI()
 
 
-def api_key_auth(request: Request, request_key: str = Depends(oauth2_scheme)):
-    request_ip = request.client.host
-
-    if os.getenv(request_ip) != request_key:
+def api_key_auth(request_key: str = Depends(oauth2_scheme)):
+    api_keys = os.getenv("APIKEYS")
+    if request_key not in api_keys:
         raise HTTPException(status_code=401, detail="Forbidden")
 
 
