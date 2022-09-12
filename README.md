@@ -1,11 +1,8 @@
 <a name="readme-top"></a>
 
 [![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -18,9 +15,6 @@
 
   <p align="center">
     An API for checking that a patient identifier is present in <a href="https://ukkidney.org/rare-renal/homepage"><strong>Radar</strong></a>
-    <br />
-    <a href="https://github.com/renalreg/radar-patient-check"><strong>Explore the docs »</strong></a>
-    <br />
     <br />
     <a href="https://github.com/renalreg/radar-patient-check/issues">Report Bug</a>
     ·
@@ -36,7 +30,7 @@ This API was created to allow other applications to verify if a patient is prese
 
 ### Built With
 
-[![Python][python.org]][python-url] [![Fastapi][fastapi.tiangolo.com]][fastapi-url] [![SQLModel][sqlmodel.tiangolo.com]][sqlmodel-url]
+[![Python][python.org]][python-url] [![Fastapi][fastapi.tiangolo.com]][fastapi-url]
 
 <!-- GETTING STARTED -->
 
@@ -74,37 +68,39 @@ To get a local copy up and running follow these simple example steps.
 5. Create a .env file with the following variables and populate
 
    ```python
-    SQLALCHEMY_DATABASE_URL = ""
-    SQLITE_URL = ""
-    FAKEKEY = ""
-    FAKEIDENTIFIER = ""
+   SQLALCHEMY_DATABASE_URL = ""
+   APIKEYS = ["", ""]
+
+   # For testing. Exclude for production
+   FAKEKEY = ""
+   FAKEIDENTIFIER = ""
    ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+6. Start the server. Only use reload for development
 
-<!-- USAGE EXAMPLES -->
+   ```python
+   uvicorn radar_patient_check.main:app --reload
+   ```
 
-See the [open issues](https://github.com/renalreg/radar-patient-check/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+   <br />
 
 <!-- LICENSE -->
 
 ## License
 
 Distributed under the APGL License. See `LICENSE` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<br />
+<br />
 
 <!-- CONTACT -->
 
 ## Contact
 
-Your Name - [@RenalRadar](https://twitter.com/@RenalRadar) - andrew.atterton@renalregistry.nhs.uk
+Renal Registry - [@RenalRadar](https://twitter.com/@RenalRadar) - rrsystems@renalregistry.nhs.uk
 
 Project Link: [https://github.com/renalreg/radar-patient-check](https://github.com/renalreg/radar-patient-check)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<br />
 
 <!-- ACKNOWLEDGMENTS -->
 
