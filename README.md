@@ -38,15 +38,15 @@ This API was created to allow other applications to verify if a patient is prese
 
 <!-- GETTING STARTED -->
 
-## Getting Started
+# Getting Started
 
 To get a local copy up and running follow these simple example steps.
 
-### Prerequisites
+## Prerequisites
 
 <a href="https://www.python.org/downloads/">Install python</a>
 
-### Installation
+## Installation
 
 1. Clone the repo
    ```sh
@@ -88,9 +88,58 @@ To get a local copy up and running follow these simple example steps.
 
    <br />
 
+# Deployment
+
+To deploy for production follow the following steps.
+
+## Prerequisites
+
+<a href="https://www.docker.com/">Docker</a>
+
+## Installation
+
+1. Clone the repo
+
+   ```sh
+   git clone https://github.com/renalreg/radar-patient-check.git
+   ```
+
+2. Create a .env file with the following variables and populate
+
+   ```python
+   SQLALCHEMY_DATABASE_URL = ""
+   APIKEYS = ["", ""]
+   ```
+
+3. Start the docker container
+   ```sh
+   docker compose up -d
+   ```
+   <br />
+
+# Using the API
+
+## Headers
+
+The headers need to include and authorization key value pair.
+
+```json
+"Authorization" : "Bearer XXXXXXXXXXXXX"
+```
+
+Requests should be sent using the URL
+
+```
+/radar_check/{patient_identifier}
+```
+
+Where patient identifier is a NHS, CHI or HSC number
+
+<br />
+
 <!-- LICENSE -->
 
-## License
+# License
 
 Distributed under the APGL License. See `LICENSE` for more information.
 <br />
@@ -98,7 +147,7 @@ Distributed under the APGL License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 
-## Contact
+# Contact
 
 Renal Registry - [@RenalRadar](https://twitter.com/@RenalRadar) - rrsystems@renalregistry.nhs.uk
 
@@ -108,7 +157,7 @@ Project Link: [https://github.com/renalreg/radar-patient-check](https://github.c
 
 <!-- ACKNOWLEDGMENTS -->
 
-## Acknowledgments
+# Acknowledgments
 
 - [UKRDC-SQLA](https://github.com/renalreg/ukrdc-sqla)
 - [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
