@@ -31,13 +31,19 @@ async def radar_check(nhs_number: str) -> bool:
     """
     with Session(ukrdc_engine) as session:
         if (
-            patient := session.query(PatientNumber)
-            .filter_by(patientid=nhs_number)
-            .first()
+            patient_numbers := session.query(PatientNumber)
+            .filter_by(patientid=nhs_number, numbertype="NI")
+            .all()
         ):
-            return bool(
-                session.query(ProgramMembership)
-                .filter_by(pid=patient.pid, program_name="RADAR")
+            pids = [patient_number.pid for patient_number in patient_numbers]
+            if (
+                membership := session.query(ProgramMembership)
+                .filter(
+                    ProgramMembership.pid.in_(pids),
+                    ProgramMembership.program_name == "RADAR",
+                    ProgramMembership.to_time == None,
+                )
                 .first()
-            )
+            ):
+                return bool(membership)
         return False
