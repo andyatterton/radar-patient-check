@@ -32,7 +32,7 @@ async def radar_check(nhs_number: str) -> bool:
     with Session(ukrdc_engine) as session:
         if (
             patient_numbers := session.query(PatientNumber)
-            .filter_by(patientid=nhs_number)
+            .filter_by(patientid=nhs_number, numbertype="NI")
             .all()
         ):
             pids = [patient_number.pid for patient_number in patient_numbers]
