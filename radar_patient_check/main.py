@@ -1,9 +1,11 @@
 import os
+from datetime import date
+from typing import Dict
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from sqlmodel import Session
-from ukrdc_sqla.ukrdc import PatientNumber, ProgramMembership
+from ukrdc_sqla.ukrdc import Patient, PatientNumber, ProgramMembership
 
 from radar_patient_check.database import ukrdc_engine
 
@@ -18,17 +20,20 @@ def api_key_auth(request_key: str = Depends(oauth2_scheme)):
         raise HTTPException(status_code=401, detail="Forbidden")
 
 
-@app.get("/radar_check/{nhs_number}", dependencies=[Depends(api_key_auth)])
-async def radar_check(nhs_number: str) -> bool:
+@app.get("/radar_check/", dependencies=[Depends(api_key_auth)])
+async def radar_check(nhs_number: str, dob: date) -> Dict[bool, bool]:
     """
-    checks to see if an NHS number is linked to a Radar membership
+    checks to see if an NHS number is linked to a Radar membership and if the dob provided
+    matches that on file. Can return true for the NHS number and false for the dob.
 
     Args:
         nhs_number (str): supplied NHS number
+        dob (date): supplied DoB format YYYY-MM-DD
 
     Returns:
-        bool: true if membership exists otherwise false
+        Dict[bool, bool]: 1st true if membership exists 1nd true if dob matches
     """
+    response = {"nhs_number": False, "dob": False}
     with Session(ukrdc_engine) as session:
         if (
             patient_numbers := session.query(PatientNumber)
@@ -36,8 +41,9 @@ async def radar_check(nhs_number: str) -> bool:
             .all()
         ):
             pids = [patient_number.pid for patient_number in patient_numbers]
-            if (
-                membership := session.query(ProgramMembership)
+
+            if membership := (
+                session.query(ProgramMembership)
                 .filter(
                     ProgramMembership.pid.in_(pids),
                     ProgramMembership.program_name == "RADAR",
@@ -45,5 +51,17 @@ async def radar_check(nhs_number: str) -> bool:
                 )
                 .first()
             ):
-                return bool(membership)
-        return False
+                response["nhs_number"] = True
+
+                recorded_dobs = (
+                    session.query(Patient.birth_time)
+                    .filter(Patient.pid.in_(pids))
+                    .all()
+                )
+
+                recorded_dobs = [
+                    recorded_dob.birth_time.date() for recorded_dob in recorded_dobs
+                ]
+
+                response["dob"] = dob in recorded_dobs
+        return response

@@ -78,6 +78,7 @@ To get a local copy up and running follow these simple example steps.
    # For testing. Exclude for production
    FAKEKEY = ""
    FAKEIDENTIFIER = ""
+   FAKEDATE = ""
    ```
 
 6. Start the server. Only use reload for development
@@ -130,10 +131,10 @@ The headers need to include and authorization key value pair.
 Requests should be sent using the URL
 
 ```
-/radar_check/{patient_identifier}
+/radar_check/?nhs_number=XXXXXXXXXXX&dob=yyyy-mm-dd
 ```
 
-Where patient identifier is a NHS, CHI or HSC number
+Where patient nhs_number is a NHS, CHI or HSC number and dob is a date of birth in the format YYYY-MM-DD
 
 <br />
 
