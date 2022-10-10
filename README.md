@@ -54,30 +54,30 @@ To get a local copy up and running follow these simple example steps.
    ```
 2. Create a virtual enviroment
    ```sh
-   python -m venv venv
+   python -m venv .venv
    ```
 3. Activate enviroment<br>
    CMD
    ```cmd
-   venv/scripts/activate
+   .venv/scripts/activate
    ```
    Bash
    ```sh
-   source venv/bin/activate
+   source .venv/bin/activate
    ```
 4. Install requirements packages
    ```sh
    python -m pip install -r requirements.txt
    ```
+   4.1. Install requirements packages for development
+      ```sh
+      python -m pip install -r requirements-dev.txt
+      ```
 5. Create a .env file with the following variables and populate
 
    ```python
    SQLALCHEMY_DATABASE_URL = ""
    APIKEYS = ["", ""]
-
-   # For testing. Exclude for production
-   FAKEKEY = ""
-   FAKEIDENTIFIER = ""
    ```
 
 6. Start the server. Only use reload for development
@@ -130,10 +130,32 @@ The headers need to include and authorization key value pair.
 Requests should be sent using the URL
 
 ```
-/radar_check/{patient_identifier}
+POST: /radar_check/
 ```
 
-Where patient identifier is a NHS, CHI or HSC number
+with a body containing the following
+
+```json
+{
+	"nhsNumber": "XXXXXXXXXX",
+	"dateOfBirth": "YYYY-MM-DD"
+}
+```
+
+where `nhsNumber` is a NHS, CHI or HSC number and `dateOfBirth` is the patient's date of birth.
+
+The API will then respond in the following format
+
+```json
+{
+  "nhsNumber": true,
+  "dateOfBirth": true,
+}
+```
+
+Where `nhsNumber` is a boolean value indicating if the NHS number is present and has an active RADAR membership, and `dateOfBirth` is a boolean value indicating if the date of birth matches.
+
+Note, if the NHS number does not have a RADAR membership, the `dateOfBirth` response will always be `false`.
 
 <br />
 

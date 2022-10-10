@@ -1,0 +1,3 @@
+black
+pylint
+pytest==7.1.2
