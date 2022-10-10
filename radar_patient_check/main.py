@@ -1,67 +1,94 @@
-import os
 from datetime import date
-from typing import Dict
+from pydantic import BaseModel, Field
 
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import OAuth2PasswordBearer
-from sqlmodel import Session
 from ukrdc_sqla.ukrdc import Patient, PatientNumber, ProgramMembership
 
-from radar_patient_check.database import ukrdc_engine
+from .database import get_session
+from .config import settings
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 app = FastAPI()
 
 
+class RadarCheckRequest(BaseModel):
+    nhs_number: str = Field(
+        ..., description="The patient's NHS number", alias="nhsNumber"
+    )
+    date_of_birth: date = Field(
+        ..., description="The patient's date of birth", alias="dateOfBirth"
+    )
+
+
+class RadarCheckResponse(BaseModel):
+    nhs_number: bool = Field(
+        ...,
+        description="NHS number matched against a known RADAR record",
+        alias="nhsNumber",
+    )
+    date_of_birth: bool = Field(
+        ...,
+        description="Date of birth matched against a known RADAR record",
+        alias="dateOfBirth",
+    )
+
+    class Config:
+        allow_population_by_field_name = True
+
+
 def api_key_auth(request_key: str = Depends(oauth2_scheme)):
-    api_keys = os.getenv("APIKEYS")
-    if request_key not in api_keys:
+    api_keys = settings.apikeys
+    if not api_keys or (api_keys and request_key not in api_keys):
         raise HTTPException(status_code=401, detail="Forbidden")
 
 
-@app.get("/radar_check/", dependencies=[Depends(api_key_auth)])
-async def radar_check(nhs_number: str, dob: date) -> Dict[bool, bool]:
+@app.post(
+    "/radar_check/",
+    dependencies=[Depends(api_key_auth)],
+    response_model=RadarCheckResponse,
+)
+async def radar_check(
+    record: RadarCheckRequest, session=Depends(get_session)
+) -> RadarCheckResponse:
     """
-    checks to see if an NHS number is linked to a Radar membership and if the dob provided
-    matches that on file. Can return true for the NHS number and false for the dob.
+    Checks to see if an NHS number is linked to a Radar membership,
+    and if the DoB provided matches that on file.
 
-    Args:
-        nhs_number (str): supplied NHS number
-        dob (date): supplied DoB format YYYY-MM-DD
-
-    Returns:
-        Dict[bool, bool]: 1st true if membership exists 1nd true if dob matches
+    Can return true for the NHS number and false for the DoB if the membership exists but DoB does not match.
     """
-    response = {"nhs_number": False, "dob": False}
-    with Session(ukrdc_engine) as session:
+
+    # NOTE: Pylance (VS Code language server) struggles with this line as Pydantic aliases confuse it.
+    #       It's fine to ignore the error.
+    response = RadarCheckResponse(nhs_number=False, date_of_birth=False)  # type: ignore
+
+    if (
+        patient_numbers := session.query(PatientNumber)
+        .filter_by(patientid=record.nhs_number, numbertype="NI")
+        .all()
+    ):
+        pids = [patient_number.pid for patient_number in patient_numbers]
+
         if (
-            patient_numbers := session.query(PatientNumber)
-            .filter_by(patientid=nhs_number, numbertype="NI")
-            .all()
+            session.query(ProgramMembership)
+            .filter(
+                ProgramMembership.pid.in_(pids),
+                ProgramMembership.program_name == "RADAR",
+                ProgramMembership.to_time == None,
+            )
+            .first()
         ):
-            pids = [patient_number.pid for patient_number in patient_numbers]
+            response.nhs_number = True
 
-            if membership := (
-                session.query(ProgramMembership)
-                .filter(
-                    ProgramMembership.pid.in_(pids),
-                    ProgramMembership.program_name == "RADAR",
-                    ProgramMembership.to_time == None,
-                )
-                .first()
-            ):
-                response["nhs_number"] = True
+            recorded_dobs = (
+                session.query(Patient.birth_time).filter(Patient.pid.in_(pids)).all()
+            )
 
-                recorded_dobs = (
-                    session.query(Patient.birth_time)
-                    .filter(Patient.pid.in_(pids))
-                    .all()
-                )
+            recorded_dobs = [
+                recorded_dob.birth_time.date() for recorded_dob in recorded_dobs
+            ]
 
-                recorded_dobs = [
-                    recorded_dob.birth_time.date() for recorded_dob in recorded_dobs
-                ]
+            response.date_of_birth = record.date_of_birth in recorded_dobs
 
-                response["dob"] = dob in recorded_dobs
-        return response
+    return response
