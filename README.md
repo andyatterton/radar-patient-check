@@ -127,6 +127,8 @@ The headers need to include and authorization key value pair.
 "Authorization" : "Bearer XXXXXXXXXXXXX"
 ```
 
+## Request Body
+
 Requests should be sent using the URL
 
 ```
@@ -143,6 +145,8 @@ with a body containing the following
 ```
 
 where `nhsNumber` is a NHS, CHI or HSC number and `dateOfBirth` is the patient's date of birth.
+
+## Response
 
 The API will then respond in the following format
 
