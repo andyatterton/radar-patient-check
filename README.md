@@ -117,6 +117,12 @@ To deploy for production follow the following steps.
    ```
    <br />
 
+### Updating
+
+1. `git pull` the latest changes
+2. `docker compose build` to rebuild the image
+3. `docker compose down && docker compose up -d` to restart the container with the new image
+
 # Using the API
 
 ## Headers
