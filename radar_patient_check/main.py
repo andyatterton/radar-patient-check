@@ -5,6 +5,8 @@ from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from ukrdc_sqla.ukrdc import Patient, PatientNumber, ProgramMembership
 
+from radar_patient_check.demo import DEMO_PATIENTS_MAP
+
 from .database import get_session
 from .config import settings
 
@@ -63,7 +65,15 @@ async def radar_check(
     #       It's fine to ignore the error.
     response = RadarCheckResponse(nhs_number=False, date_of_birth=False)  # type: ignore
 
-    if (
+    # Handle NHS demo patients
+    if record.nhs_number in DEMO_PATIENTS_MAP:
+        demo_patient = DEMO_PATIENTS_MAP[record.nhs_number]
+        if demo_patient.is_radar_member:
+            response.nhs_number = True
+            response.date_of_birth = demo_patient.date_of_birth == record.date_of_birth
+
+    # Handle real patients
+    elif (
         patient_numbers := session.query(PatientNumber)
         .filter_by(patientid=record.nhs_number, numbertype="NI")
         .all()
