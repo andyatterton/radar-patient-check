@@ -62,8 +62,8 @@ def test_main_radar_check_nhs_correct_dob_not(client: TestClient):
         "/radar_check/",
         headers={"Authorization": "Bearer PYTESTKEY0000000000"},
         json={
-            "nhsNumber": "9686368973",
-            "dateOfBirth": "1968-02-01",
+            "nhsNumber": "9658218881",
+            "dateOfBirth": "1921-08-08",
         },
     )
     assert response.status_code == 200
