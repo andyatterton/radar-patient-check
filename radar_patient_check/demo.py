@@ -18,6 +18,9 @@ DEMO_PATIENTS_MAP = {
     "9658218873": DemoPatientDetails(
         date_of_birth=datetime.date(1927, 6, 19), is_radar_member=True
     ),
+    "9661034524": DemoPatientDetails(
+        date_of_birth=datetime.date(1992, 10, 22), is_radar_member=True
+    ),
     # "9658218881": DemoPatientDetails(
     #     date_of_birth=datetime.date(1921, 8, 8), is_radar_member=True
     # ),
