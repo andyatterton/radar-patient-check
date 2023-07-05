@@ -84,7 +84,7 @@ async def radar_check(
             session.query(ProgramMembership)
             .filter(
                 ProgramMembership.pid.in_(pids),
-                ProgramMembership.program_name == "RADAR",
+                ProgramMembership.program_name == "RADAR.COHORT.INS",
                 ProgramMembership.to_time == None,
             )
             .first()
