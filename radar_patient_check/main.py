@@ -25,7 +25,7 @@ class RadarCheckRequest(BaseModel):
 class RadarCheckResponse(BaseModel):
     nhs_number: bool = Field(
         ...,
-        description="NHS number matched against a known RADAR enrecord",
+        description="NHS number matched against a known RADAR record",
         alias="nhsNumber",
     )
     date_of_birth: bool = Field(
