@@ -48,6 +48,25 @@ DEMO_PATIENTS_MAP = {
     "9658218881": DemoPatientDetails(
         date_of_birth=datetime.date(1920, 8, 8), is_radar_member=True
     ),
+    # New test patients added 2023-07-27 at request of Steve Donovan
+    "9686368450": DemoPatientDetails(
+        date_of_birth=datetime.date(1954, 6, 14), is_radar_member=True
+    ),
+    "9686368469": DemoPatientDetails(
+        date_of_birth=datetime.date(1955, 8, 26), is_radar_member=True
+    ),
+    "9686368477": DemoPatientDetails(
+        date_of_birth=datetime.date(1958, 4, 66), is_radar_member=True
+    ),
+    "9686368485": DemoPatientDetails(
+        date_of_birth=datetime.date(1957, 9, 9), is_radar_member=True
+    ),
+    "9686368604": DemoPatientDetails(
+        date_of_birth=datetime.date(1985, 5, 17), is_radar_member=True
+    ),
+    "9686368620": DemoPatientDetails(
+        date_of_birth=datetime.date(1975, 3, 8), is_radar_member=True
+    ),
 }
 
 for i in range(999000001, 999000011):
