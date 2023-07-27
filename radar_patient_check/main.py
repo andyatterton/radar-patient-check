@@ -1,16 +1,14 @@
 from datetime import date
-from pydantic import BaseModel, Field
+from typing import Optional
 
-from fastapi import Depends, FastAPI, HTTPException
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import Depends, FastAPI, HTTPException, Security
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from pydantic import BaseModel, Field
 from ukrdc_sqla.ukrdc import Patient, PatientNumber, ProgramMembership
 
-from radar_patient_check.demo import DEMO_PATIENTS_MAP
-
-from .database import get_session
 from .config import settings
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+from .database import get_session
+from .demo import DEMO_PATIENTS_MAP
 
 app = FastAPI()
 
@@ -40,15 +38,24 @@ class RadarCheckResponse(BaseModel):
         allow_population_by_field_name = True
 
 
-def api_key_auth(request_key: str = Depends(oauth2_scheme)):
+def api_key_auth(
+    token: Optional[HTTPAuthorizationCredentials] = Depends(HTTPBearer()),
+):
+    # Handle missing auth header
+    if not token:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    # Extract API key from auth header
+    request_key = token.credentials
+    # Load allowed API keys
     api_keys = settings.apikeys
+    # Check API key in auth header
     if not api_keys or (api_keys and request_key not in api_keys):
         raise HTTPException(status_code=401, detail="Forbidden")
 
 
 @app.post(
     "/radar_check/",
-    dependencies=[Depends(api_key_auth)],
+    dependencies=[Security(api_key_auth)],
     response_model=RadarCheckResponse,
 )
 async def radar_check(

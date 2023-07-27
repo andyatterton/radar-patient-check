@@ -2,13 +2,14 @@ import datetime
 
 import pytest
 from fastapi.testclient import TestClient
-from radar_patient_check.config import settings
-from radar_patient_check.database import get_session
-from radar_patient_check.main import app
 from sqlmodel import Session, create_engine
 from sqlmodel.pool import StaticPool
 from ukrdc_sqla.ukrdc import Base as UKRDC3Base
 from ukrdc_sqla.ukrdc import Patient, PatientNumber, ProgramMembership
+
+from radar_patient_check.config import settings
+from radar_patient_check.database import get_session
+from radar_patient_check.main import app
 
 
 def _create_test_data(session: Session):
