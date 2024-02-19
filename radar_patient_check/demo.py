@@ -67,6 +67,10 @@ DEMO_PATIENTS_MAP = {
     "9686368620": DemoPatientDetails(
         date_of_birth=datetime.date(1975, 3, 8), is_radar_member=True
     ),
+    # New test patient added 2024-02-19 at request of Steve Donovan
+    "9990568847": DemoPatientDetails(
+        date_of_birth=datetime.date(1992, 7, 7), is_radar_member=True
+    ),
 }
 
 for i in range(999000001, 999000011):
