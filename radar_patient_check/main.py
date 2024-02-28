@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Optional
+from typing import Optional, List
 
 from fastapi import Depends, FastAPI, HTTPException, Security
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -39,7 +39,7 @@ class RecordCheckResponse(BaseModel):
 
 
 def base_api_key_auth(
-    key_list: list[str],
+    key_list: List[str],
     token: Optional[HTTPAuthorizationCredentials],
 ):
     """Base FastAPI dependency for API key authentication
