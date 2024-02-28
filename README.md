@@ -15,10 +15,10 @@
     <img src="images/UKKA Kidney Blue.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">Radar Patient Check</h3>
+<h3 align="center">"Radar" (UKRDC) Patient Check</h3>
 
   <p align="center">
-    An API for checking that a patient identifier is present in <a href="https://ukkidney.org/rare-renal/homepage"><strong>Radar</strong></a>
+    An API for checking if a patient is present in the UKRDC.
     <br />
     <a href="https://github.com/renalreg/radar-patient-check/issues">Report Bug</a>
     ·
@@ -30,7 +30,7 @@
 
 ## About The Project
 
-This API was created to allow other applications to verify if a patient is present in <a href="https://ukkidney.org/rare-renal/homepage"><strong>Radar</strong></a> using memberships found in the <a href="https://ukkidney.org/audit-research/data-permissions/ukrdc"><strong>UKRDC</strong></a> database.
+This API was originally created to allow other applications to verify if a patient is present in <a href="https://ukkidney.org/rare-renal/homepage"><strong>RADAR</strong></a> using memberships found in the <a href="https://ukkidney.org/audit-research/data-permissions/ukrdc"><strong>UKRDC</strong></a> database. It has now expanded in scope to cover checking a patient's general presence in the UKRDC.
 
 ### Built With
 
@@ -77,7 +77,8 @@ To get a local copy up and running follow these simple example steps.
 
    ```python
    SQLALCHEMY_DATABASE_URL = ""
-   APIKEYS = ["", ""]
+   RADAR_APIKEYS = ["", ""]
+   UKRDC_APIKEYS = ["", ""]
    ```
 
 6. Start the server. Only use reload for development
@@ -108,7 +109,8 @@ To deploy for production follow the following steps.
 
    ```python
    SQLALCHEMY_DATABASE_URL = ""
-   APIKEYS = ["", ""]
+   RADAR_APIKEYS = ["", ""]
+   UKRDC_APIKEYS = ["", ""]
    ```
 
 3. Start the docker container
@@ -133,15 +135,27 @@ The headers need to include and authorization key value pair.
 "Authorization" : "Bearer XXXXXXXXXXXXX"
 ```
 
-## Request Body
+## API routes
 
-Requests should be sent using the URL
+### RADAR Membership
 
 ```
 POST: /radar_check/
 ```
 
-with a body containing the following
+Checks if a patient is present in the UKRDC, and has a `RADAR.COHORT.INS` program membership.
+
+### UKRDC Presence
+
+```
+POST: /ukrdc_check/
+```
+
+Checks if a patient is present in the UKRDC.
+
+## Request Body
+
+Requests should be sent with a body containing the following
 
 ```json
 {
@@ -163,9 +177,9 @@ The API will then respond in the following format
 }
 ```
 
-Where `nhsNumber` is a boolean value indicating if the NHS number is present and has an active RADAR membership, and `dateOfBirth` is a boolean value indicating if the date of birth matches.
+Where `nhsNumber` is a boolean value indicating if the NHS number is present and matches the required conditions (e.g. RADAR membership), and `dateOfBirth` is a boolean value indicating if the date of birth matches.
 
-Note, if the NHS number does not have a RADAR membership, the `dateOfBirth` response will always be `false`.
+Note, if the NHS number does not match the required conditions (e.g. UKRDC presence or RADAR membership), the `dateOfBirth` response will always be `false`.
 
 <br />
 

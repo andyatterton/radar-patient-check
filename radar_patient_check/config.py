@@ -5,7 +5,9 @@ from pydantic import BaseSettings
 
 class Settings(BaseSettings):
     sqlalchemy_database_url: Optional[str] = None
-    apikeys: List[str] = []
+
+    radar_apikeys: List[str] = []
+    ukrdc_apikeys: List[str] = []
 
     class Config:
         env_file = ".env"
