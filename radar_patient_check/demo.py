@@ -71,6 +71,18 @@ DEMO_PATIENTS_MAP = {
     "9990568847": DemoPatientDetails(
         date_of_birth=datetime.date(1992, 7, 7), is_radar_member=True
     ),
+    # New test patients added 2024-06-21 at request of Steve Donovan
+    # To test for patients that are younger than 13 years old
+    "9288276580": DemoPatientDetails(
+        date_of_birth=datetime.date(2020, 7, 7), is_radar_member=True
+    ),
+    "9449206570": DemoPatientDetails(
+        date_of_birth=datetime.date(2019, 3, 2), is_radar_member=True
+    ),
+    # Scheduled to turn 13 in a little over a week
+    "9434899656": DemoPatientDetails(
+        date_of_birth=datetime.date(2011, 6, 30), is_radar_member=True
+    ),
 }
 
 for i in range(999000001, 999000011):
